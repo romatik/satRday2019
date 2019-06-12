@@ -1,0 +1,195 @@
+---
+title: "Touring tidyverse"
+subtitle: "dplyr"
+author: "Misha Balyasin"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+---
+background-image: url(https://www.rstudio.com/wp-content/uploads/2015/01/dplyr-hexbin-logo.png)
+background-size: 100px
+background-position: 90% 8%
+
+# dplyr
+
+has three main goals:
+
+1. Identify the most important data manipulation verbs and make them easy to use from R.
+
+2. Provide blazing fast performance for in-memory data by writing key pieces in C++ (using Rcpp).
+
+3. Use the same interface to work with data no matter where it's stored, whether in a data frame, a data table or database.
+
+
+---
+# Initial commit of dplyr
+
+The year was 2012... (`2012-10-28 19:37` to be precise)
+
+```
+Package: plyr2
+Type: Package
+Title: Tools for splitting, applying and combining data
+Version: 0.01
+Author: Hadley Wickham <h.wickham@gmail.com>
+Maintainer: Hadley Wickham <h.wickham@gmail.com>
+Description: ddply on crack
+Depends:
+    R (>= 2.15.1)
+License: MIT
+```
+
+---
+# 23 minutes later
+
+```
+Package: dplyr
+Type: Package
+Title: dplyr: a grammar of data manipulation
+Version: 0.01
+Author: Hadley Wickham <h.wickham@gmail.com>
+Maintainer: Hadley Wickham <h.wickham@gmail.com>
+Description: A fast, consistent tools for working with data frame like objects,
+    both in memory and out of memory.
+Imports:
+    stringr
+Depends:
+    R (>= 2.15.1)
+License: MIT
+```
+
+---
+# Current state
+
+1. `dplyr` replaced `plyr` to specialize on data frames.
+2. Current version - `r packageVersion("dplyr")`.
+3. https://github.com/tidyverse/dplyr
+4. Developed by __Hadley Wickham__, Romain François, Lionel Henry, Kirill Müller.
+5. 6000+ commits by 176 contributors.
+
+---
+background-image: url(https://www.rstudio.com/wp-content/uploads/2015/01/dplyr-hexbin-logo.png)
+background-size: 100px
+background-position: 90% 8%
+
+# dplyr
+
+5 verbs:
+
+* `mutate()` adds new variables that are functions of existing variables
+* `select()` picks variables based on their names.
+* `filter()` picks cases based on their values.
+* `summarise()` reduces multiple values down to a single summary.
+* `arrange()` changes the ordering of the rows.
+
+---
+# Overview of the API
+.pull-left[
+1. Single-table verbs.
+2. Single-table helpers.
+3. Two-table verbs.
+4. Remote tables.
+5. Vector functions.
+
+```{r dplyr_api, echo = FALSE}
+funs <- getNamespaceExports("dplyr")
+length(funs[!grepl(x = funs, pattern = "_$")])
+```
+
+]
+--
+.pull-right[
+
+1. Selecting columns.
+2. Transforming columns.
+3. Filtering rows.
+4. Summarizing and slicing.
+5. `dbplyr`.
+
+Based on https://github.com/suzanbaert/RTutorials
+]
+
+---
+# Not covered
+
+1. Joins (`inner_join()`, `left_join()` etc.).
+2. `group_by_*()`.
+3. Binding (`bind_rows()`, `bind_cols()`, `combine()`).
+4. Cumulative functions (`cumall()`, `cumany()` etc.).
+5. Windowing functions (`?ranking` for the full list).
+
+---
+# Selecting columns
+
+Notable participants:
+
+* `select()`
+* `rename()`
+* `select_*()`
+* `first()`, `last()`, `nth()`
+* `everything()`
+
+---
+# Transforming columns
+
+Notable participants:
+
+* `mutate()`
+* `mutate_*()`
+* `na_if()`
+* `case_when()`
+* `recode()` and `recode_factor()`
+
+---
+# Filtering rows
+
+Notable partiicipants:
+
+* `filter()`
+* `filter_*()`
+* `near()`, `between()`
+* `any_vars()` and `all_vars()`
+
+---
+# Summarizing and slicing
+
+Notable partiicipants:
+
+* `summarize()` and `summarize_*()`
+* `add_tally()` and `add_count()`
+* `arrange()`
+* `group_by()`
+* `top_n()`, `sample_frac()`, `sample_n()`, `slice()`
+* `do()`
+
+---
+# `dbplyr`
+
+Notable partiicipants:
+
+* `collect()`
+* `explain()`
+* `compute()`
+* `DBI` and `odbc` packages
+
+
+---
+# Resources
+
+1. https://dplyr.tidyverse.org/index.html
+2. http://r4ds.had.co.nz/transform.html
+3. https://suzan.rbind.io/2018/01/dplyr-tutorial-1/
+4. https://dplyr.tidyverse.org/reference/index.html
+5. https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf
+6. https://www.nielsenmark.us/2018/07/07/connecting-r-to-postgresql-on-linux/
+7. http://db.rstudio.com/
