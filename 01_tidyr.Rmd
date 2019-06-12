@@ -139,7 +139,7 @@ countdown::countdown(minutes = 4)
 ---
 # Near future
 
-1. Pivoting.
+1. Pivoting (inspired by `cdata` and `data.table`).
 1. Improved support for unnesting.
 
 ---
