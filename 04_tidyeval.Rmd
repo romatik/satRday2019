@@ -1,7 +1,6 @@
 ---
 title: "Touring tidyverse"
 subtitle: "tidyeval"
-author: "Misha Balyasin"
 output:
   xaringan::moon_reader:
     lib_dir: libs
