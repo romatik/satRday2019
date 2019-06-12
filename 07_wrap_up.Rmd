@@ -1,0 +1,22 @@
+---
+title: "Touring the tidyverse"
+subtitle: "Wrap-up"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(magrittr)
+```
+
+# Contacts
+
+http://mishabalyasin.com/
+
+Slides, markdown and code - https://github.com/romatik/satRday2019
