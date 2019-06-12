@@ -1,0 +1,168 @@
+---
+title: "Touring tidyverse"
+subtitle: "tidy data + tidyr"
+author: "Misha Balyasin"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+# tidyverse
+
+>  The tidyverse is an __opinionated__ collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures. 
+
+All things tidyverse: https://www.tidyverse.org/
+
+---
+# Tidy manifesto<sup>1</sup>
+
+1. Reuse existing data structures.
+
+--
+2. Compose simple functions with the pipe.
+
+  - Strive to keep functions as simple as possible.
+  - Avoid mixing side-effects with transformations.
+  - Function names should be verbs.
+
+--
+3. Embrace R typical functional programming.
+  - Immutable objects and copy-on-modify semantics.
+  - The generic functions provided by S3 and S4. 
+  - Tools that abstract over for-loops.
+
+--
+4. Design for humans.
+  - Invest time in naming your functions.
+  - Favour explicit, lengthy names, over short, implicit, names.
+  - Think about how autocomplete can also make an API that’s easy to write.
+
+
+.footnote[
+[1] https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html
+]
+
+
+---
+background-image: url(http://r4ds.had.co.nz/diagrams/data-science.png)
+background-size: 800px
+
+# tidyverse in a picture
+
+---
+background-image: url(https://avatars1.githubusercontent.com/u/22032646?v=3&s=400)
+background-size: 100px
+background-position: 90% 8%
+
+# Core tidyverse
+```{r load_tidyverse}
+#install.packages("tidyverse")
+library(tidyverse)
+```
+
+---
+class: center, middle
+
+# Tidy data
+
+---
+# Tidy data
+
+1. Each variable forms a column.
+
+2. Each observation forms a row.
+
+3. Each type of observational unit forms a table.
+
+This is Codd's 3rd normal form.
+
+---
+background-image: url(https://www.rstudio.com/wp-content/uploads/2014/04/tidyr.png)
+background-size: 100px
+background-position: 90% 8%
+
+# tidyr
+
+1. tidyr replaces reshape2 (2010-2014) and reshape (2005-2010).
+2. Current version - `r packageVersion("tidyr")` (dev version!).
+3. https://github.com/tidyverse/tidyr
+4. __Hadley Wickham__ and Lionel Henry are two main contributors.
+
+
+---
+# Examples
+```{r examples}
+knitr::kable(head(tidyr::table2), format = "html")
+```
+
+---
+# Overview of the API
+```{r tidyr_api}
+funs <- getNamespaceExports("tidyr")
+funs[!grepl(x = funs, pattern = "_$")]
+```
+
+
+---
+# Examples of usage in current CRAN version
+
+1. Reshape data
+  - `spread` and `gather`
+  
+2. Expand tables
+  - `complete`, `nesting`, `expand`, `crossing`, `full_seq`
+
+3. Handle missing values
+  - `drop_na`, `fill`, `replace_na`
+  
+4. Split cells
+  - `unite`, `separate`, `separate_rows`, `extract`, `uncount`
+
+5. List-columns
+  - `nest` and `unnest`
+  
+---
+# Practice
+
+```{r}
+countdown::countdown(minutes = 4)
+````
+  
+---
+# Near future
+
+1. Pivoting.
+1. Improved support for unnesting.
+
+---
+# Practice
+
+```{r}
+countdown::countdown(minutes = 5)
+````
+
+---
+# Resources
+
+1. http://r4ds.had.co.nz/index.html
+2. http://tidyr.tidyverse.org/
+3. http://vita.had.co.nz/papers/tidy-data.html
+4. https://www.r-exercises.com/2017/06/22/data-wrangling-reshaping/
+6. https://www.daeconomist.com/post/2018-05-15-spread/
+7. https://github.com/MangoTheCat/tidyshiny/
+8. https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf
+9. https://github.com/rstudio/webinars/tree/master/54-row-oriented-work - some examples with nesting
+
+
+---
+# Contacts
+
+http://mishabalyasin.com/
