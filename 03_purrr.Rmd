@@ -2,7 +2,6 @@
 title: "Touring tidyverse"
 subtitle: "purrr"
 author: "Misha Balyasin"
-date: "2018/10/23"
 output:
   xaringan::moon_reader:
     lib_dir: libs
