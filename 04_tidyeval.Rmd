@@ -2,60 +2,19 @@
 title: "Touring tidyverse"
 subtitle: "tidyeval"
 author: "Misha Balyasin"
-date: "2018/11/29"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: xaringan-themer.css
     nature:
-      highlightStyle: solarized-dark
+      highlightStyle: github
       highlightLines: true
-      countIncrementalSlides: false  
+      countIncrementalSlides: false
 ---
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 ```
-```{r xaringan-themer, include = FALSE}
-library(xaringanthemer)
-solarized_dark(
-  header_font_google = google_font("Josefin Slab", "600"),
-  text_font_google   = google_font("Work Sans", "300", "300i"),
-  code_font_google   = google_font("IBM Plex Mono")
-)
-```
 
-background-image: url(https://r4ds.had.co.nz/diagrams/data-science.png)
-background-size: 800px
-
-Slides, markdown and code - https://github.com/romatik/touring_the_tidyverse
-
----
-
-# Plan of talks
-
-.pull-left[
-## Initial
-1. Wrangle: tidyr
-2. Wrangle: dplyr
-3. Wrangle: lubridate, hms, blob, forcats, stringr
-4. Program: purrr + glue
-5. Program: tidyeval 
-6. Model: rsample, tidyposterior, recipes, broom
-7. Beyond tidyverse (tibbletime, tidytext, janitor)
-]
---
-.pull-right[
-## Current
-1. Wrangle: tidyr -- `r emo::ji("check")`
-2. Wrangle: dplyr -- `r emo::ji("check")`
-3. ~~Wrangle: lubridate, hms, blob, forcats, stringr~~
-4. Program: purrr ~~and glue~~ -- `r emo::ji("check")`
-5. **Program: tidyeval**
-6. Model: rsample, tidyposterior, recipes, broom -- `r emo::ji("construction")`
-7. Beyond tidyverse (tibbletime, tidytext, janitor)
-
-]
 ---
 background-image: url(https://raw.githubusercontent.com/r-lib/rlang/master/man/figures/rlang.png)
 background-size: 100px
@@ -124,10 +83,3 @@ background-position: 90% 6%
 1. "Tidy evaluation in 5 minutes" by Hadley Wickham - https://www.youtube.com/watch?v=nERXS3ssntw
 1.  Metaprogramming chapters in "Advanced R" - https://adv-r.hadley.nz/meta.html
 1. `tidyeval` cheatsheet - https://www.rstudio.com/resources/cheatsheets/
-
----
-# Contacts
-
-http://mishabalyasin.com/
-
-Slides, markdown and code - https://github.com/romatik/touring_the_tidyverse
