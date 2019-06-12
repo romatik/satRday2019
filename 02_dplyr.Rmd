@@ -14,7 +14,6 @@ output:
 options(htmltools.dir.version = FALSE)
 ```
 
----
 background-image: url(https://www.rstudio.com/wp-content/uploads/2015/01/dplyr-hexbin-logo.png)
 background-size: 100px
 background-position: 90% 8%
