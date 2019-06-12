@@ -14,7 +14,6 @@ output:
 options(htmltools.dir.version = FALSE)
 ```
 
----
 background-image: url(https://raw.githubusercontent.com/r-lib/rlang/master/man/figures/rlang.png)
 background-size: 100px
 background-position: 90% 6%
@@ -46,7 +45,7 @@ f = function(col1, col2, new_col_name) {
 ---
 # Current state
 
-1. Current version - `r packageVersion("rlang")`.
+1. Current version - `r packageVersion("rlang")` (dev version!).
 1. https://github.com/r-lib/rlang
 1. Developed by __Lionel Henry__, Hadley Wickham.
 1. 3200+ commits by 31 contributors.
@@ -55,7 +54,11 @@ f = function(col1, col2, new_col_name) {
 
 # Why tidyeval
 
-1. Programming over quoting `tidyverse` functions (e.g., `dplyr`, `ggplot2`).
+1. Programming over quoting `tidyverse` functions (e.g., `dplyr`, `ggplot2`) <sup>1</sup>.
+
+.footnote[
+[1] although it's likely you don't need it for most tasks
+]
 
 ---
 background-image: url(https://raw.githubusercontent.com/r-lib/rlang/master/man/figures/rlang.png)
@@ -75,6 +78,10 @@ background-position: 90% 6%
 ]
 
 ---
+# To look over
+https://community.rstudio.com/t/interesting-tidy-eval-use-cases/21121
+
+---
 # Resources
 
 1. `tidyeval` book - https://tidyeval.tidyverse.org/ or `tidyeval` post - https://rpubs.com/lionel-/tidyeval-introduction
@@ -82,3 +89,4 @@ background-position: 90% 6%
 1. "Tidy evaluation in 5 minutes" by Hadley Wickham - https://www.youtube.com/watch?v=nERXS3ssntw
 1.  Metaprogramming chapters in "Advanced R" - https://adv-r.hadley.nz/meta.html
 1. `tidyeval` cheatsheet - https://www.rstudio.com/resources/cheatsheets/
+1. Why you might not need tidyeval - https://resources.rstudio.com/rstudio-conf-2019/working-with-names-and-expressions-in-your-tidy-eval-code and https://resources.rstudio.com/rstudio-conf-2019/lazy-evaluation

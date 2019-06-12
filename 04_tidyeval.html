@@ -3,7 +3,6 @@
   <head>
     <title>Touring tidyverse</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Misha Balyasin" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -13,14 +12,12 @@ class: center, middle, inverse, title-slide
 
 # Touring tidyverse
 ## tidyeval
-### Misha Balyasin
 
 ---
 
 
 
 
----
 background-image: url(https://raw.githubusercontent.com/r-lib/rlang/master/man/figures/rlang.png)
 background-size: 100px
 background-position: 90% 6%
@@ -53,16 +50,20 @@ f = function(col1, col2, new_col_name) {
 ---
 # Current state
 
-1. Current version - 0.3.99.9003.
+1. Current version - 0.3.99.9003 (dev version!).
 1. https://github.com/r-lib/rlang
 1. Developed by __Lionel Henry__, Hadley Wickham.
-1. 2900+ commits by 31 contributors.
+1. 3200+ commits by 31 contributors.
 
 ---
 
 # Why tidyeval
 
-1. Programming over quoting `tidyverse` functions (e.g., `dplyr`, `ggplot2`).
+1. Programming over quoting `tidyverse` functions (e.g., `dplyr`, `ggplot2`) &lt;sup&gt;1&lt;/sup&gt;.
+
+.footnote[
+[1] although it's likely you don't need it for most tasks
+]
 
 ---
 background-image: url(https://raw.githubusercontent.com/r-lib/rlang/master/man/figures/rlang.png)
@@ -89,6 +90,7 @@ background-position: 90% 6%
 1. "Tidy evaluation in 5 minutes" by Hadley Wickham - https://www.youtube.com/watch?v=nERXS3ssntw
 1.  Metaprogramming chapters in "Advanced R" - https://adv-r.hadley.nz/meta.html
 1. `tidyeval` cheatsheet - https://www.rstudio.com/resources/cheatsheets/
+1. Why you might not need tidyeval - https://resources.rstudio.com/rstudio-conf-2019/working-with-names-and-expressions-in-your-tidy-eval-code and https://resources.rstudio.com/rstudio-conf-2019/lazy-evaluation
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
