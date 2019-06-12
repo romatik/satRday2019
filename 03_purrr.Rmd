@@ -6,7 +6,6 @@ date: "2018/10/23"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: [default, robot, robot-fonts]
     nature:
       highlightStyle: github
       highlightLines: true
@@ -16,38 +15,6 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 ```
-
-background-image: url(http://r4ds.had.co.nz/diagrams/data-science.png)
-background-size: 800px
-
-Slides, markdown and code - https://github.com/romatik/touring_the_tidyverse
-
----
-
-# Plan of talks
-
-.pull-left[
-## Initial
-1. Wrangle: tidyr
-2. Wrangle: dplyr
-3. Wrangle: lubridate, hms, blob, forcats, stringr
-4. Program: purrr + glue
-5. Program: tidyeval 
-6. Model: rsample, tidyposterior, recipes, broom
-7. Beyond tidyverse (tibbletime, tidytext, janitor)
-]
---
-.pull-right[
-## Current
-1. Wrangle: tidyr -- `r emo::ji("check")`
-2. Wrangle: dplyr -- `r emo::ji("check")`
-3. ~~Wrangle: lubridate, hms, blob, forcats, stringr~~
-4. Program: purrr ~~and glue~~ 
-5. Program: tidyeval 
-6. Model: rsample, tidyposterior, recipes, broom -- `r emo::ji("construction")`
-7. Beyond tidyverse (tibbletime, tidytext, janitor)
-
-]
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/purrr/master/man/figures/logo.png)
@@ -81,10 +48,10 @@ First commit: `2014-11-30 00:33` by Hadley Wickham.
 ---
 # Current state
 
-2. Current version - `r packageVersion("purrr")`.
-3. https://github.com/tidyverse/purrr
-4. Developed by __Lionel Henry__, Hadley Wickham.
-5. 700+ commits by 46 contributors.
+1. Current version - `r packageVersion("purrr")`.
+1. https://github.com/tidyverse/purrr
+1. Developed by __Lionel Henry__, Hadley Wickham.
+1. 1000+ commits by 62 contributors.
 
 ---
 background-image: url(https://raw.githubusercontent.com/tidyverse/purrr/master/man/figures/logo.png)
@@ -93,7 +60,7 @@ background-position: 90% 6%
 
 # purrr
 
-Covering today:
+Covering:
 
 1. Working with iteration in principled and safe manner.
 1. Functional programming.
@@ -142,7 +109,7 @@ background-size: 100%
 background-image: url(https://raw.githubusercontent.com/romatik/touring_the_tidyverse/master/img/invoke_map.png)
 background-size: 100%
 
-# invoke_map
+# exec
 
 
 ---
@@ -198,10 +165,3 @@ Too many to list
 1. `purrr` workshop by Charlotte Wickham - https://www.dropbox.com/sh/062xjv35izc2a92/AAAnC-nzToR1rPekDZipRJSLa?dl=0
 1. "Master the `tidyverse`" by Garett Grolemund - https://github.com/rstudio-education/master-the-tidyverse/.
 1. `purrr::partial` example by Tyler Bradly - https://tbradley1013.github.io/2018/10/01/calculating-quantiles-for-groups-with-dplyr-summarize-and-purrr-partial/
-
----
-# Contacts
-
-http://mishabalyasin.com/
-
-Slides, markdown and code - https://github.com/romatik/touring_the_tidyverse
