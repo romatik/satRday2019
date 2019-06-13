@@ -110,37 +110,12 @@ funs <- getNamespaceExports("tidyr")
 funs[!grepl(x = funs, pattern = "_$")]
 ```
 
-
 ---
-# Examples of usage in current CRAN version
-
-1. Reshape data
-  - `spread` and `gather`
-  
-2. Expand tables
-  - `complete`, `nesting`, `expand`, `crossing`, `full_seq`
-
-3. Handle missing values
-  - `drop_na`, `fill`, `replace_na`
-  
-4. Split cells
-  - `unite`, `separate`, `separate_rows`, `extract`, `uncount`
-
-5. List-columns
-  - `nest` and `unnest`
-  
----
-# Practice
-
-```{r}
-countdown::countdown(minutes = 4)
-````
-  
----
-# Near future
+# New features
 
 1. Pivoting (inspired by `cdata` and `data.table`).
-1. Improved support for unnesting.
+1. Rectangling.
+1. https://github.com/tidyverse/tidyr/blob/master/NEWS.md
 
 ---
 # Practice
@@ -148,7 +123,7 @@ countdown::countdown(minutes = 4)
 ```{r}
 countdown::countdown(minutes = 5)
 ````
-
+  
 ---
 # Resources
 
