@@ -2,7 +2,7 @@ library(tidyr)
 
 # Pivoting ----------------------------------------------------------------
 
-# example -----------------------------------------------------------------
+# Anscombe -----------------------------------------------------------------
 ## Convert Anscombe quartet into a tidy form
 anscombe
 
@@ -21,7 +21,7 @@ res <- data.frame(stringsAsFactors = FALSE,
                         7.91, 6.89)
 )
 
-# example -----------------------------------------------------------------
+# Panel data -----------------------------------------------------------------
 ## This is panel data:
 ## - `x` is ID
 ## - `a` and `b` are exposures
@@ -51,7 +51,7 @@ res <- data.frame(stringsAsFactors = FALSE,
 )
 res
 
-# example -----------------------------------------------------------------
+# Bakers -----------------------------------------------------------------
 # This table shows results of guessing what is inside of a recipe by four bakers
 juniors_multiple <- tribble(
   ~ "baker", ~"score_1", ~"score_2", ~"score_3", ~ "guess_1", ~"guess_2", ~"guess_3",
@@ -70,8 +70,39 @@ juniors_multiple <- tribble(
 
 # Now make order a factor
 
+# pivot_wider 1 -----------------------------------------------------------------
+df <- tibble(mycode = c('A','A','A','B','B'),
+             mytime = c(ymd('2018-01-02',
+                            '2018-01-03',
+                            '2018-01-04',
+                            '2018-01-02',
+                            '2018-01-05')),
+             var1 = c(1,2,3,4,5),
+             othervar = c(10,20,30,10,20))
 
-# example -----------------------------------------------------------------
+res <- data.frame(
+  mytime = c("2018-01-02", "2018-01-03", "2018-01-04", "2018-01-05"),
+  var1_A = c(1, 2, 3, NA),
+  var1_B = c(4, NA, NA, 5),
+  othervar_A = c(10, 20, 30, NA),
+  othervar_B = c(10, NA, NA, 20)
+)
+
+# pivot_wider 2 -----------------------------------------------------------------
+df <- data.frame(Sex = c("M","F","M","M","F","F"),
+                 RSVP = c("Y","N","N","Y","N","Y"),stringsAsFactors = FALSE)
+
+## find out how many people (both absolute number and proportion) per gender replied
+## hint: use `prop.table`
+res <- data.frame(stringsAsFactors = FALSE,
+                  Sex = c("F", "M"),
+                  n_N = c(2L, 1L),
+                  n_Y = c(1L, 2L),
+                  prop_N = c(0.666666666666667, 0.333333333333333),
+                  prop_Y = c(0.333333333333333, 0.666666666666667)
+)
+
+# Multiple choice -----------------------------------------------------------------
 # This data shows results of a survey with multiple choices
 multi <- tribble(
   ~id, ~choice1, ~choice2, ~choice3,
@@ -92,7 +123,7 @@ res <- data.frame(
 )
 res
 
-# example -----------------------------------------------------------------
+# World Bank -----------------------------------------------------------------
 ## World Bank data
 world_bank_pop
 
@@ -139,4 +170,3 @@ films
 
 # example -----------------------------------------------------------------
 # flattern `films` dataset entirely (no list columns)
-
