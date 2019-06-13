@@ -99,23 +99,6 @@ imap_chr(sample(10), ~ paste0(.y, ": ", .x))
 my_fun <- function(x, y) glue::glue("{x} was born {y}")
 imap_chr(map_chr(got_chars, "born"), my_fun)
 
-# invoke ------------------------------------------------------------------
-invoke(runif, list(n = 10))
-invoke(runif, n = 10)
-
-invoke_map(list(runif, rnorm), list(list(n = 10), list(n = 5)))
-invoke_map(list(runif, rnorm), n = 5)
-
-df <- tibble::tibble(
-  f = c("runif", "rpois", "rnorm"),
-  params = list(
-    list(n = 10),
-    list(n = 5, lambda = 10),
-    list(n = 10, mean = -3, sd = 10)
-  )
-)
-df
-invoke_map(df$f, df$params)
 
 # lmap --------------------------------------------------------------------
 # https://d33wubrfki0l68.cloudfront.net/1f648d451974f0ed313347b78ba653891cf59b21/8185b/diagrams/subsetting/train.png
@@ -139,30 +122,3 @@ x %>% lmap_at(c("a", "d"), maybe_rep)
 
 # Or only where a condition is satisfied
 x %>% lmap_if(is.character, maybe_rep)
-
-
-# dataframing -------------------------------------------------------------
-fields <- got_chars %>%
-  map(names) %>%
-  flatten_chr() %>%
-  unique()
-
-library(magrittr)
-map_dfr(got_chars, extract, c("name", "culture", "gender", "id", "born", "alive"))
-
-map_dfr(got_chars, extract, fields)
-
-got_chars_tbl <- map_dfc(fields, function(field){
-  tibble::tibble(!!field := purrr::map(got_chars, field))
-})
-
-got_chars %>% {
-  tibble(
-    name = map_chr(., "name"),
-    culture = map_chr(., "culture"),
-    gender = map_chr(., "gender"),
-    id = map_int(., "id"),
-    born = map_chr(., "born"),
-    alive = map_lgl(., "alive")
-  )
-}
