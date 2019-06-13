@@ -120,13 +120,13 @@ Based on https://github.com/suzanbaert/RTutorials
 ---
 # Covering today
 
-1. Breaking changes in packages.
+1. Breaking changes vs changing behaviour.
 1. Working with names in `tidyverse`.
 
 ---
 # Breaking changes
 
-1. [Breaking changes](https://dbplyr.tidyverse.org/news/index.html#breaking-changes) in packages (`$`, `[[`, `[`).
+[Breaking changes](https://dbplyr.tidyverse.org/news/index.html#breaking-changes) in packages (`$`, `[[`, `[`).
 
 ```{r, message = FALSE, error = TRUE}
 library("tidyverse", warn.conflicts = FALSE)
@@ -170,11 +170,13 @@ mtcars %>%
 ---
 # Changing behaviour
 
-```{r, eval = FALSE}
+```{r}
 # works
 mtcars %>% select(1:2) %>% summarise_all(list(funx))
 mtcars %>% select(1:2) %>% summarise_all(funx)
+```
 
+```{r, eval = FALSE}
 # doesn't
 mtcars %>% select(1:2) %>% summarise_all(~funx(.))
 mtcars %>% select(1:2) %>% summarise_all(list(~funx(.)))
@@ -360,7 +362,7 @@ starwars %>% group_by(gender) %>%
 
 ---
 ```{r, echo = FALSE}
-countdown::countdown_fullscreen(minutes = 5, update_every = 30,
+countdown::countdown_fullscreen(minutes = 4, update_every = 30,
                      padding = "20%", margin = "5%",
                      font_size = "8em", line_height = "1.25")
 ````

@@ -126,13 +126,13 @@ Based on https://github.com/suzanbaert/RTutorials
 ---
 # Covering today
 
-1. Breaking changes in packages.
+1. Breaking changes vs changing behaviour.
 1. Working with names in `tidyverse`.
 
 ---
 # Breaking changes
 
-1. [Breaking changes](https://dbplyr.tidyverse.org/news/index.html#breaking-changes) in packages (`$`, `[[`, `[`).
+[Breaking changes](https://dbplyr.tidyverse.org/news/index.html#breaking-changes) in packages (`$`, `[[`, `[`).
 
 
 ```r
@@ -204,8 +204,34 @@ mtcars %&gt;%
 ```r
 # works
 mtcars %&gt;% select(1:2) %&gt;% summarise_all(list(funx))
-mtcars %&gt;% select(1:2) %&gt;% summarise_all(funx)
+```
 
+```
+## mpg
+## cyl
+```
+
+```
+##        mpg    cyl
+## 1 20.09062 6.1875
+```
+
+```r
+mtcars %&gt;% select(1:2) %&gt;% summarise_all(funx)
+```
+
+```
+## mpg
+## cyl
+```
+
+```
+##        mpg    cyl
+## 1 20.09062 6.1875
+```
+
+
+```r
 # doesn't
 mtcars %&gt;% select(1:2) %&gt;% summarise_all(~funx(.))
 mtcars %&gt;% select(1:2) %&gt;% summarise_all(list(~funx(.)))
@@ -596,8 +622,8 @@ starwars %&gt;% group_by(gender) %&gt;%
 ```
 
 ---
-<div class="countdown blink-colon noupdate-30" id="timer_5d025f4c" style="top:0;right:0;bottom:0;left:0;margin:5%;padding:20%;font-size:8em;line-height:1.25;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+<div class="countdown blink-colon noupdate-30" id="timer_5d027b93" style="top:0;right:0;bottom:0;left:0;margin:5%;padding:20%;font-size:8em;line-height:1.25;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
   
 ---
