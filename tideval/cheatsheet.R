@@ -1,3 +1,8 @@
+# https://community.rstudio.com/t/tidyeval-solution-for-negative-group-by/5234/3
+# https://community.rstudio.com/t/creating-n-lags-for-all-variables-in-a-tibble/30327
+# https://community.rstudio.com/t/postfix-function-with-dbplyr-to-extract-json-from-postgresql/11395/4
+
+
 library(rlang)
 library(dplyr)
 
