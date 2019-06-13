@@ -118,10 +118,10 @@ funs[!grepl(x = funs, pattern = "_$")]
 1. https://github.com/tidyverse/tidyr/blob/master/NEWS.md
 
 ---
-# Practice
-
-```{r}
-countdown::countdown(minutes = 5)
+```{r, echo = FALSE}
+countdown::countdown_fullscreen(minutes = 5, update_every = 30,
+                     padding = "20%", margin = "5%",
+                     font_size = "8em", line_height = "1.25")
 ````
   
 ---
@@ -136,8 +136,3 @@ countdown::countdown(minutes = 5)
 8. https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf
 9. https://github.com/rstudio/webinars/tree/master/54-row-oriented-work - some examples with nesting
 
-
----
-# Contacts
-
-http://mishabalyasin.com/
