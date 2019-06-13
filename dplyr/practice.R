@@ -34,6 +34,19 @@ mtcars
 
 ## Find all rows where all columns starting with c are below 6
 
+
+# simplify ----------------------------------------------------------------
+## Can you find a way to get rid of `group_by_at`?
+## Hint: take a look at documentation of `group_by`
+gather_summarize_acts <- function(.data, ...){
+  transmute(.data, ...) %>%
+    gather("Variable", "Value", -one_of(group_vars(.))) %>%
+    group_by_at(vars(c(group_vars(.), Variable))) %>%
+    summarize_at(vars("Value"), summary_functions)
+}
+
+
+
 # tidyr -------------------------------------------------------------------
 ## Take `gather_summarize_acts` function and change `gather` to appropriate pivot
 gather_summarize_acts <- function(.data, ...){
