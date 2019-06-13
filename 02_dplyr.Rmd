@@ -118,69 +118,253 @@ Based on https://github.com/suzanbaert/RTutorials
 ]
 
 ---
-# Not covered
+# Covering today
 
-1. Joins (`inner_join()`, `left_join()` etc.).
-2. `group_by_*()`.
-3. Binding (`bind_rows()`, `bind_cols()`, `combine()`).
-4. Cumulative functions (`cumall()`, `cumany()` etc.).
-5. Windowing functions (`?ranking` for the full list).
+1. Breaking changes in packages.
+1. Working with names in `tidyverse`.
 
 ---
-# Selecting columns
+# Breaking changes
 
-Notable participants:
+1. [Breaking changes](https://dbplyr.tidyverse.org/news/index.html#breaking-changes) in packages (`$`, `[[`, `[`).
 
-* `select()`
-* `rename()`
-* `select_*()`
-* `first()`, `last()`, `nth()`
-* `everything()`
+```{r, message = FALSE, error = TRUE}
+library("tidyverse", warn.conflicts = FALSE)
+iris_db <- dbplyr::tbl_memdb(iris)
 
----
-# Transforming columns
+species <- list()
+species$species <- c("setosa")
 
-Notable participants:
-
-* `mutate()`
-* `mutate_*()`
-* `na_if()`
-* `case_when()`
-* `recode()` and `recode_factor()`
+iris_db %>%
+  dplyr::filter(Species %in% species$species)
+```
 
 ---
-# Filtering rows
+# Breaking changes
 
-Notable partiicipants:
+These will work:
 
-* `filter()`
-* `filter_*()`
-* `near()`, `between()`
-* `any_vars()` and `all_vars()`
+```{r, eval = FALSE}
+iris_db %>%
+  dplyr::filter(Species %in% !!species$species)
 
----
-# Summarizing and slicing
-
-Notable partiicipants:
-
-* `summarize()` and `summarize_*()`
-* `add_tally()` and `add_count()`
-* `arrange()`
-* `group_by()`
-* `top_n()`, `sample_frac()`, `sample_n()`, `slice()`
-* `do()`
+just_vector <- species$species
+iris_db %>%
+  dplyr::filter(Species %in% just_vector)
+```
 
 ---
-# `dbplyr`
+# Changing behaviour
 
-Notable partiicipants:
+```{r}
+funx <- function(x) {
+    print(substitute(x))
+    mean(x) 
+}
 
-* `collect()`
-* `explain()`
-* `compute()`
-* `DBI` and `odbc` packages
+mtcars %>% 
+    select(1:2) %>%
+    summarise_all(list(~funx(.)))
+```
+
+---
+# Changing behaviour
+
+```{r, eval = FALSE}
+# works
+mtcars %>% select(1:2) %>% summarise_all(list(funx))
+mtcars %>% select(1:2) %>% summarise_all(funx)
+
+# doesn't
+mtcars %>% select(1:2) %>% summarise_all(~funx(.))
+mtcars %>% select(1:2) %>% summarise_all(list(~funx(.)))
+```
+
+---
+# Working with names in `tidyverse`<sup>1</sup>
+
+One thing is not like the other:
+
+```{r, eval = FALSE}
+starwars %>% mutate(birth_year - 100)
+starwars %>% group_by(birth_year)
+starwars %>% select(birth_year)
+starwars %>% filter(birth_year < 50)
+```
+
+.footnote[
+[1] Full version - https://resources.rstudio.com/rstudio-conf-2019/working-with-names-and-expressions-in-your-tidy-eval-code
+]
+
+---
+
+Selection is special since it understands `c`, `-`, and `:` ...
+
+```{r, eval = FALSE}
+starwars %>% select(c(1, height))
+```
+
+--
+and helpers know about variables:
+
+```{r, eval = FALSE}
+starwars %>% select(ends_with("color"))
+```
 
 
+---
+
+However, consider following:
+
+.pull-left[
+```{r}
+starwars %>% select(height)
+```
+]
+.pull-right[
+```{r}
+starwars %>% transmute(height)
+```
+]
+
+---
+
+.pull-left[
+```{r}
+starwars %>% select(1)
+```
+]
+.pull-right[
+```{r}
+starwars %>% transmute(1)
+```
+]
+
+---
+# Passing selections
+
+```{r}
+starwars %>%
+  group_by_at(vars(ends_with("color")))
+```
+
+---
+# Writing functions with selections
+
+```{r}
+custom_summarize <- function(.data, ...){
+  .data %>%
+    summarize_at(vars(...), ~ mean(., na.rm = TRUE))
+}
+
+custom_summarize(starwars, height, mass)
+custom_summarize(starwars, starts_with("height"))
+
+```
+
+---
+# Works with groups
+
+```{r}
+starwars %>%
+  group_by(hair_color) %>%
+  custom_summarize(mass)
+```
+
+---
+# What if we want to pass actions instead?
+
+```{r}
+summary_functions <- list(
+  ~ mean(., na.rm = TRUE),
+  ~ sd(., na.rm = TRUE)
+)
+
+summarize_acts <- function(.data, ...){
+  .data %>%
+    transmute(...) %>%
+    summarize_all(summary_functions)
+}
+
+summarize_acts(starwars, heightm = height / 100, bmi = mass / heightm ^ 2)
+```
+
+---
+# Works with groups as well
+
+```{r}
+starwars %>%
+  group_by(gender) %>%
+  summarize_acts(heightm = height / 100, bmi = mass / heightm ^ 2)
+```
+
+---
+# Adding `tidyr`
+
+```{r}
+gather_summarize_acts <- function(.data, ...){
+  .data %>%
+    transmute(...) %>%
+    gather("Variable", "Value", everything()) %>%
+    group_by(Variable) %>%
+    summarize_at(vars("Value"), summary_functions)
+}
+
+starwars %>%
+  gather_summarize_acts(
+    heightm = height / 100, bmi = mass / heightm ^ 2
+  )
+```
+
+---
+# Groups don't work
+
+```{r}
+starwars %>%
+  group_by(gender) %>%
+  gather_summarize_acts(
+    heightm = height / 100, 
+    bmi = mass / heightm ^ 2
+  )
+```
+
+---
+# Use selectors
+
+Lionel's version
+
+```{r, eval = FALSE}
+gather_summarize_acts <- function(.data, ...){
+  .data %>%
+    transmute(...) %>%
+    gather("Variable", "Value", -one_of(group_vars(.))) %>%
+    group_by(Variable) %>%
+    summarize_at(vars("Value"), summary_functions)
+}
+```
+
+---
+# Correct version
+
+```{r}
+gather_summarize_acts <- function(.data, ...){
+    transmute(.data, ...) %>%
+    gather("Variable", "Value", -one_of(group_vars(.))) %>%
+    group_by_at(vars(c(group_vars(.), Variable))) %>%
+    summarize_at(vars("Value"), summary_functions)
+}
+
+starwars %>% group_by(gender) %>%
+  gather_summarize_acts( heightm = height / 100, bmi = mass / heightm ^ 2)
+```
+
+---
+```{r, echo = FALSE}
+countdown::countdown_fullscreen(minutes = 5, update_every = 30,
+                     padding = "20%", margin = "5%",
+                     font_size = "8em", line_height = "1.25")
+````
+  
 ---
 # Resources
 

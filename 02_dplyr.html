@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -122,69 +124,482 @@ Based on https://github.com/suzanbaert/RTutorials
 ]
 
 ---
-# Not covered
+# Covering today
 
-1. Joins (`inner_join()`, `left_join()` etc.).
-2. `group_by_*()`.
-3. Binding (`bind_rows()`, `bind_cols()`, `combine()`).
-4. Cumulative functions (`cumall()`, `cumany()` etc.).
-5. Windowing functions (`?ranking` for the full list).
+1. Breaking changes in packages.
+1. Working with names in `tidyverse`.
 
 ---
-# Selecting columns
+# Breaking changes
 
-Notable participants:
+1. [Breaking changes](https://dbplyr.tidyverse.org/news/index.html#breaking-changes) in packages (`$`, `[[`, `[`).
 
-* `select()`
-* `rename()`
-* `select_*()`
-* `first()`, `last()`, `nth()`
-* `everything()`
 
----
-# Transforming columns
+```r
+library("tidyverse", warn.conflicts = FALSE)
+iris_db &lt;- dbplyr::tbl_memdb(iris)
+```
 
-Notable participants:
+```
+## Warning: replacing previous import 'dplyr::vars' by 'rlang::vars' when
+## loading 'dbplyr'
+```
 
-* `mutate()`
-* `mutate_*()`
-* `na_if()`
-* `case_when()`
-* `recode()` and `recode_factor()`
+```r
+species &lt;- list()
+species$species &lt;- c("setosa")
 
----
-# Filtering rows
+iris_db %&gt;%
+  dplyr::filter(Species %in% species$species)
+```
 
-Notable partiicipants:
-
-* `filter()`
-* `filter_*()`
-* `near()`, `between()`
-* `any_vars()` and `all_vars()`
+```
+## Error in result_create(conn@ptr, statement): near "AS": syntax error
+```
 
 ---
-# Summarizing and slicing
+# Breaking changes
 
-Notable partiicipants:
+These will work:
 
-* `summarize()` and `summarize_*()`
-* `add_tally()` and `add_count()`
-* `arrange()`
-* `group_by()`
-* `top_n()`, `sample_frac()`, `sample_n()`, `slice()`
-* `do()`
+
+```r
+iris_db %&gt;%
+  dplyr::filter(Species %in% !!species$species)
+
+just_vector &lt;- species$species
+iris_db %&gt;%
+  dplyr::filter(Species %in% just_vector)
+```
 
 ---
-# `dbplyr`
-
-Notable partiicipants:
-
-* `collect()`
-* `explain()`
-* `compute()`
-* `DBI` and `odbc` packages
+# Changing behaviour
 
 
+```r
+funx &lt;- function(x) {
+    print(substitute(x))
+    mean(x) 
+}
+
+mtcars %&gt;% 
+    select(1:2) %&gt;%
+    summarise_all(list(~funx(.)))
+```
+
+```
+## .
+## .
+```
+
+```
+##        mpg    cyl
+## 1 20.09062 6.1875
+```
+
+---
+# Changing behaviour
+
+
+```r
+# works
+mtcars %&gt;% select(1:2) %&gt;% summarise_all(list(funx))
+mtcars %&gt;% select(1:2) %&gt;% summarise_all(funx)
+
+# doesn't
+mtcars %&gt;% select(1:2) %&gt;% summarise_all(~funx(.))
+mtcars %&gt;% select(1:2) %&gt;% summarise_all(list(~funx(.)))
+```
+
+---
+# Working with names in `tidyverse`&lt;sup&gt;1&lt;/sup&gt;
+
+One thing is not like the other:
+
+
+```r
+starwars %&gt;% mutate(birth_year - 100)
+starwars %&gt;% group_by(birth_year)
+starwars %&gt;% select(birth_year)
+starwars %&gt;% filter(birth_year &lt; 50)
+```
+
+.footnote[
+[1] Full version - https://resources.rstudio.com/rstudio-conf-2019/working-with-names-and-expressions-in-your-tidy-eval-code
+]
+
+---
+
+Selection is special since it understands `c`, `-`, and `:` ...
+
+
+```r
+starwars %&gt;% select(c(1, height))
+```
+
+--
+and helpers know about variables:
+
+
+```r
+starwars %&gt;% select(ends_with("color"))
+```
+
+
+---
+
+However, consider following:
+
+.pull-left[
+
+```r
+starwars %&gt;% select(height)
+```
+
+```
+## # A tibble: 87 x 1
+##    height
+##     &lt;int&gt;
+##  1    172
+##  2    167
+##  3     96
+##  4    202
+##  5    150
+##  6    178
+##  7    165
+##  8     97
+##  9    183
+## 10    182
+## # … with 77 more rows
+```
+]
+.pull-right[
+
+```r
+starwars %&gt;% transmute(height)
+```
+
+```
+## # A tibble: 87 x 1
+##    height
+##     &lt;int&gt;
+##  1    172
+##  2    167
+##  3     96
+##  4    202
+##  5    150
+##  6    178
+##  7    165
+##  8     97
+##  9    183
+## 10    182
+## # … with 77 more rows
+```
+]
+
+---
+
+.pull-left[
+
+```r
+starwars %&gt;% select(1)
+```
+
+```
+## # A tibble: 87 x 1
+##    name              
+##    &lt;chr&gt;             
+##  1 Luke Skywalker    
+##  2 C-3PO             
+##  3 R2-D2             
+##  4 Darth Vader       
+##  5 Leia Organa       
+##  6 Owen Lars         
+##  7 Beru Whitesun lars
+##  8 R5-D4             
+##  9 Biggs Darklighter 
+## 10 Obi-Wan Kenobi    
+## # … with 77 more rows
+```
+]
+.pull-right[
+
+```r
+starwars %&gt;% transmute(1)
+```
+
+```
+## # A tibble: 87 x 1
+##      `1`
+##    &lt;dbl&gt;
+##  1     1
+##  2     1
+##  3     1
+##  4     1
+##  5     1
+##  6     1
+##  7     1
+##  8     1
+##  9     1
+## 10     1
+## # … with 77 more rows
+```
+]
+
+---
+# Passing selections
+
+
+```r
+starwars %&gt;%
+  group_by_at(vars(ends_with("color")))
+```
+
+```
+## # A tibble: 87 x 13
+## # Groups:   hair_color, skin_color, eye_color [67]
+##    name  height  mass hair_color skin_color eye_color birth_year gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+##  1 Luke…    172    77 blond      fair       blue            19   male  
+##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
+##  4 Dart…    202   136 none       white      yellow          41.9 male  
+##  5 Leia…    150    49 brown      light      brown           19   female
+##  6 Owen…    178   120 brown, gr… light      blue            52   male  
+##  7 Beru…    165    75 brown      light      blue            47   female
+##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+##  9 Bigg…    183    84 black      light      brown           24   male  
+## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
+## # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+---
+# Writing functions with selections
+
+
+```r
+custom_summarize &lt;- function(.data, ...){
+  .data %&gt;%
+    summarize_at(vars(...), ~ mean(., na.rm = TRUE))
+}
+
+custom_summarize(starwars, height, mass)
+```
+
+```
+## # A tibble: 1 x 2
+##   height  mass
+##    &lt;dbl&gt; &lt;dbl&gt;
+## 1   174.  97.3
+```
+
+```r
+custom_summarize(starwars, starts_with("height"))
+```
+
+```
+## # A tibble: 1 x 1
+##   height
+##    &lt;dbl&gt;
+## 1   174.
+```
+
+---
+# Works with groups
+
+
+```r
+starwars %&gt;%
+  group_by(hair_color) %&gt;%
+  custom_summarize(mass)
+```
+
+```
+## # A tibble: 13 x 2
+##    hair_color     mass
+##    &lt;chr&gt;         &lt;dbl&gt;
+##  1 &lt;NA&gt;          314. 
+##  2 auburn        NaN  
+##  3 auburn, grey  NaN  
+##  4 auburn, white  77  
+##  5 black          73.1
+##  6 blond          80.5
+##  7 blonde         55  
+##  8 brown          79.3
+##  9 brown, grey   120  
+## 10 grey           75  
+## 11 none           78.5
+## 12 unknown       NaN  
+## 13 white          59.7
+```
+
+---
+# What if we want to pass actions instead?
+
+
+```r
+summary_functions &lt;- list(
+  ~ mean(., na.rm = TRUE),
+  ~ sd(., na.rm = TRUE)
+)
+
+summarize_acts &lt;- function(.data, ...){
+  .data %&gt;%
+    transmute(...) %&gt;%
+    summarize_all(summary_functions)
+}
+
+summarize_acts(starwars, heightm = height / 100, bmi = mass / heightm ^ 2)
+```
+
+```
+## # A tibble: 1 x 4
+##   heightm_mean bmi_mean heightm_sd bmi_sd
+##          &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;
+## 1         1.74     32.0      0.348   54.9
+```
+
+---
+# Works with groups as well
+
+
+```r
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  summarize_acts(heightm = height / 100, bmi = mass / heightm ^ 2)
+```
+
+```
+## # A tibble: 5 x 5
+##   gender        heightm_mean bmi_mean heightm_sd bmi_sd
+##   &lt;chr&gt;                &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;
+## 1 &lt;NA&gt;                  1.2      31.9      0.407   4.33
+## 2 female                1.65     18.8      0.230   3.71
+## 3 hermaphrodite         1.75    443.      NA      NA   
+## 4 male                  1.79     25.7      0.354   6.49
+## 5 none                  2        35       NA      NA
+```
+
+---
+# Adding `tidyr`
+
+
+```r
+gather_summarize_acts &lt;- function(.data, ...){
+  .data %&gt;%
+    transmute(...) %&gt;%
+    gather("Variable", "Value", everything()) %&gt;%
+    group_by(Variable) %&gt;%
+    summarize_at(vars("Value"), summary_functions)
+}
+
+starwars %&gt;%
+  gather_summarize_acts(
+    heightm = height / 100, bmi = mass / heightm ^ 2
+  )
+```
+
+```
+## # A tibble: 2 x 3
+##   Variable  mean     sd
+##   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 bmi      32.0  54.9  
+## 2 heightm   1.74  0.348
+```
+
+---
+# Groups don't work
+
+
+```r
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  gather_summarize_acts(
+    heightm = height / 100, 
+    bmi = mass / heightm ^ 2
+  )
+```
+
+```
+## Warning in mean.default(., na.rm = TRUE): argument is not numeric or
+## logical: returning NA
+
+## Warning in mean.default(., na.rm = TRUE): argument is not numeric or
+## logical: returning NA
+
+## Warning in mean.default(., na.rm = TRUE): argument is not numeric or
+## logical: returning NA
+```
+
+```
+## Warning in var(if (is.vector(x) || is.factor(x)) x else as.double(x), na.rm
+## = na.rm): NAs introduced by coercion
+```
+
+```
+## # A tibble: 3 x 3
+##   Variable  mean     sd
+##   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 bmi         NA 54.9  
+## 2 gender      NA NA    
+## 3 heightm     NA  0.348
+```
+
+---
+# Use selectors
+
+Lionel's version
+
+
+```r
+gather_summarize_acts &lt;- function(.data, ...){
+  .data %&gt;%
+    transmute(...) %&gt;%
+    gather("Variable", "Value", -one_of(group_vars(.))) %&gt;%
+    group_by(Variable) %&gt;%
+    summarize_at(vars("Value"), summary_functions)
+}
+```
+
+---
+# Correct version
+
+
+```r
+gather_summarize_acts &lt;- function(.data, ...){
+    transmute(.data, ...) %&gt;%
+    gather("Variable", "Value", -one_of(group_vars(.))) %&gt;%
+    group_by_at(vars(c(group_vars(.), Variable))) %&gt;%
+    summarize_at(vars("Value"), summary_functions)
+}
+
+starwars %&gt;% group_by(gender) %&gt;%
+  gather_summarize_acts( heightm = height / 100, bmi = mass / heightm ^ 2)
+```
+
+```
+## # A tibble: 10 x 4
+## # Groups:   gender [5]
+##    gender        Variable   mean     sd
+##    &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+##  1 &lt;NA&gt;          bmi       31.9   4.33 
+##  2 &lt;NA&gt;          heightm    1.2   0.407
+##  3 female        bmi       18.8   3.71 
+##  4 female        heightm    1.65  0.230
+##  5 hermaphrodite bmi      443.   NA    
+##  6 hermaphrodite heightm    1.75 NA    
+##  7 male          bmi       25.7   6.49 
+##  8 male          heightm    1.79  0.354
+##  9 none          bmi       35    NA    
+## 10 none          heightm    2    NA
+```
+
+---
+<div class="countdown blink-colon noupdate-30" id="timer_5d025f4c" style="top:0;right:0;bottom:0;left:0;margin:5%;padding:20%;font-size:8em;line-height:1.25;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+  
 ---
 # Resources
 
