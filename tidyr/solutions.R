@@ -21,6 +21,12 @@ res <- data.frame(stringsAsFactors = FALSE,
                         7.91, 6.89)
 )
 
+anscombe %>%
+  pivot_longer(everything(),
+               names_to = c(".value", "set"),
+               names_pattern = "(.)(.)"
+  )
+
 # example -----------------------------------------------------------------
 ## This is panel data:
 ## - `x` is ID
@@ -51,6 +57,14 @@ res <- data.frame(stringsAsFactors = FALSE,
 )
 res
 
+pnl %>%
+  pivot_longer(
+    -c(x, a, b),
+    names_to = c(".value", "time"),
+    names_pattern = "(.)(.)"
+  )
+
+
 # example -----------------------------------------------------------------
 # This table shows results of guessing what is inside of a recipe by four bakers
 juniors_multiple <- tribble(
@@ -65,10 +79,31 @@ juniors_multiple <- tribble(
 # - first is order (1/2/3) –> these are the numbers at end of my column names
 # - second is score (0/1/NA)
 # - third is guess (cinnamon/cloves/nutmeg/NA)
+juniors_multiple %>%
+  pivot_longer(-baker,
+               names_to = c(".value", "order"),
+               names_sep = "_"
+  )
 
 # Now make order an integer
+juniors_multiple %>%
+  pivot_longer(-baker,
+               names_to = c(".value", "order"),
+               names_sep = "_",
+               names_ptypes = list(
+                 order = integer()
+               )
+  )
 
 # Now make order a factor
+juniors_multiple %>%
+  pivot_longer(-baker,
+               names_to = c(".value", "order"),
+               names_sep = "_",
+               names_ptypes = list(
+                 order = factor(levels = c(1, 2, 3))
+               )
+  )
 
 
 # example -----------------------------------------------------------------
@@ -92,6 +127,17 @@ res <- data.frame(
 )
 res
 
+res <- multi %>%
+  pivot_longer(-id, values_drop_na = TRUE) %>%
+  mutate(checked = TRUE) %>%
+  pivot_wider(
+    id_cols = id,
+    names_from = value,
+    values_from = checked,
+    values_fill = list(checked = FALSE)
+  )
+
+
 # example -----------------------------------------------------------------
 ## World Bank data
 world_bank_pop
@@ -107,6 +153,12 @@ res <- data.frame(stringsAsFactors = FALSE,
                   GROW = c(1.18263237130859, 1.41302121757747, 1.4345595310351,
                            1.31036043903253, 0.951477683657806, 0.491302714501917)
 )
+
+res <- world_bank_pop %>%
+  pivot_longer(`2000`:`2017`, names_to = "year", values_to = "value") %>%
+  separate(indicator, c(NA, "area", "variable")) %>%
+  pivot_wider(names_from = variable, values_from = value)
+
 
 # Rectangling -------------------------------------------------------------
 films <- tibble(
@@ -133,10 +185,20 @@ films
 
 # example -----------------------------------------------------------------
 # Turn all components of metadata into columns
+films %>% unnest_wider(metadata)
+
 
 # example -----------------------------------------------------------------
 # Extract only species, first and third films from metadata
+films %>% hoist(metadata,
+                species = "species",
+                first_film = list("films", 1L),
+                third_film = list("films", 3L)
+)
 
 # example -----------------------------------------------------------------
 # flattern `films` dataset entirely (no list columns)
+films %>%
+  unnest_wider(metadata) %>%
+  unnest_longer(films)
 
