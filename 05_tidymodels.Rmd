@@ -18,7 +18,8 @@ library(magrittr)
 # Plan
 
 1. Brief intro to `tidymodels`.
-1. Demo of `recipes`.
+1. Demo of `parsnip`/`dials`.
+1. Demo of `recipes` (?).
 
 ---
 background-image: url(https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/tidymodels.png)
