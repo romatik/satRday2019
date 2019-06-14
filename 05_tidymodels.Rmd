@@ -43,8 +43,8 @@ tidymodels is a "meta-package" for modeling and statistical analysis that share 
 # Current state
 
 1. Current version - `r packageVersion("tidymodels")`.
-1. https://github.com/r-lib/tidymodels
-1. Developed by __Max Kuhn__, Hadley Wickham.
+1. https://github.com/tidymodels/
+1. Developed by __Max Kuhn__, Hadley Wickham, Davis Vaughan.
 1. Very early stage.
 
 ```{r, echo = FALSE}
