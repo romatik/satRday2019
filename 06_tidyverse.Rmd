@@ -51,4 +51,6 @@ dplyr::count(cleaned, area, sort = TRUE)  %>%
 1. `janitor` + `skimr` for data exploration.
 1. `tsiblle` for time-series.
 1. `tidytext` for NLP.
-1. `vctrs` (https://resources.rstudio.com/rstudio-conf-2019/vctrs-tools-for-making-size-and-type-consistent-functions)
+1. [`vctrs`](https://github.com/r-lib/vctrs) (https://resources.rstudio.com/rstudio-conf-2019/vctrs-tools-for-making-size-and-type-consistent-functions)
+1. [`dance`](https://github.com/romainfrancois/dance).
+1. [`rap`](https://github.com/romainfrancois/rap).
