@@ -1,6 +1,6 @@
 ---
 title: "Touring tidyverse"
-subtitle: "tidyeval"
+subtitle: "rlang"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -78,8 +78,19 @@ background-position: 90% 6%
 ]
 
 ---
-# To look over
-https://community.rstudio.com/t/interesting-tidy-eval-use-cases/21121
+```{r, echo = FALSE}
+countdown::countdown_fullscreen(minutes = 4, update_every = 30,
+                     padding = "20%", margin = "5%",
+                     font_size = "8em", line_height = "1.25")
+````
+
+
+---
+```{r, echo = FALSE}
+countdown::countdown_fullscreen(minutes = 4, update_every = 30,
+                     padding = "20%", margin = "5%",
+                     font_size = "8em", line_height = "1.25")
+````
 
 ---
 # Resources
