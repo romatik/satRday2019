@@ -100,25 +100,21 @@ my_fun <- function(x, y) glue::glue("{x} was born {y}")
 imap_chr(map_chr(got_chars, "born"), my_fun)
 
 
-# lmap --------------------------------------------------------------------
-# https://d33wubrfki0l68.cloudfront.net/1f648d451974f0ed313347b78ba653891cf59b21/8185b/diagrams/subsetting/train.png
-# https://d33wubrfki0l68.cloudfront.net/aea9600956ff6fbbc29d8bd49124cca46c5cb95c/28eaa/diagrams/subsetting/train-single.png
+# recipe ------------------------------------------------------------------
+aliases <- set_names(map(got_chars, "aliases"), map_chr(got_chars, "name"))
 
-maybe_rep <- function(x) {
-  n <- rpois(1, 2)
-  out <- rep_len(x, n)
-  if (length(out) > 0) {
-    names(out) <- paste0(names(x), seq_len(n))
-  }
-  out
-}
+## Find out how many things are changing
 
-# The output size varies each time we map f()
-x <- list(a = 1:4, b = letters[5:7], c = 8:9, d = letters[10])
-x %>% lmap(maybe_rep)
+## Find one representative element
+a <- map(got_chars, "aliases")[[19]]
+a <- map(got_chars, "aliases")[[16]]
 
-# We can apply f() on a selected subset of x
-x %>% lmap_at(c("a", "d"), maybe_rep)
+## Find a way to get to result you want
+paste(a, sep = " | ")
+paste(a, collapse = " | ")
 
-# Or only where a condition is satisfied
-x %>% lmap_if(is.character, maybe_rep)
+## Try it with couple elements
+aliases[15:17] %>%
+  map_chr(paste, collapse = " | ")
+
+## Celebrate
