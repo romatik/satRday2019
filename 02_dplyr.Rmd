@@ -151,6 +151,9 @@ iris_db %>%
 just_vector <- species$species
 iris_db %>%
   dplyr::filter(Species %in% just_vector)
+
+iris_db %>%
+  filter(Species %in% local(species$species))
 ```
 
 ---

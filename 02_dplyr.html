@@ -170,6 +170,9 @@ iris_db %&gt;%
 just_vector &lt;- species$species
 iris_db %&gt;%
   dplyr::filter(Species %in% just_vector)
+
+iris_db %&gt;%
+  filter(Species %in% local(species$species))
 ```
 
 ---
@@ -622,7 +625,7 @@ starwars %&gt;% group_by(gender) %&gt;%
 ```
 
 ---
-<div class="countdown blink-colon noupdate-30" id="timer_5d027b93" style="top:0;right:0;bottom:0;left:0;margin:5%;padding:20%;font-size:8em;line-height:1.25;" data-warnwhen="0">
+<div class="countdown blink-colon noupdate-30" id="timer_5d03540b" style="top:0;right:0;bottom:0;left:0;margin:5%;padding:20%;font-size:8em;line-height:1.25;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
   
