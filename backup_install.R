@@ -1,0 +1,7 @@
+install.packages("tidyverse")
+install.packages("tidymodels")
+install.packages("devtools")
+devtools::install_github("tidyverse/tidyr")
+install.packages("repurrrsive")
+install.packages("glue")
+devtools::install_github("r-lib/lobstr")
