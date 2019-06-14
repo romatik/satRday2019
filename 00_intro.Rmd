@@ -1,0 +1,81 @@
+---
+title: "Touring tidyverse: satRday edition"
+subtitle: "Preliminaries"
+author: "Misha Balyasin"
+date: "2019/06/15"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(countdown)
+```
+# Welcome
+
+Who: Senior Data Scientist at Wayfair (from 1st of July).
+
+What: 3.5 hours of hands-on introduction to tidyverse and some of the more advanced features.
+
+```{r, echo = FALSE}
+knitr::include_graphics("https://r4ds.had.co.nz/diagrams/data-science.png")
+```
+
+---
+# House rules
+
+1. Questions are always welcome.
+1. Will work in small teams (2-3 people).
+1. https://rstudio.cloud/project/381312
+1. How we'll learn about packages.
+
+---
+# What does "advanced" mean here?
+
+1. You know what `select` does.
+1. You are comfortable with R in general.
+1. You want to learn a bit more "under the hood".
+1. You want to understand why and how packages are changed.
+1. You would like to have a better grasp at how different parts of `tidyverse` are connected.
+
+---
+# Schedule
+
+`15:10-15:20` - setup and introduction.
+
+`15:20-15:50` - `tidyr`.
+
+`15:50-16:00` - coffee break.
+
+`16:00-16:30` - `dplyr`.
+
+`16:30-16:50` - `purrr`.
+
+`16:50-17:30` - `rlang` (`tidyeval`).
+
+`17:30-17:40` - coffee break.
+
+`17:40-18:10` - `tidymodels`.
+
+`18:10-18:25` - beyond tidyverse.
+
+`18:25-18:35` - wrap-up.
+
+---
+# Divide into teams
+
+Two things to discuss:
+
+1. Introduce yourself.
+1. What was the last package you've installed and what problem you've worked on?
+
+```{r, echo=FALSE}
+countdown(minutes = 1, seconds = 0, bottom = 0)
+```
+
